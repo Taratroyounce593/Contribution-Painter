@@ -52,9 +52,9 @@
   .day-labels { position: absolute; left: 0; top: 20px; display: flex; flex-direction: column; gap: 3px; }
   .day-labels span { font-size: 9px; color: var(--text3); height: 13px; line-height: 13px; width: 22px; text-align: right; padding-right: 4px; }
   .graph-scroll { overflow-x: auto; padding-bottom: 4px; padding-left: 26px; }
-  .month-row { display: grid; grid-template-columns: repeat(53, 13px); gap: 3px; min-width: 0; margin-bottom: 3px; }
+  .month-row { display: grid; gap: 3px; min-width: 0; margin-bottom: 3px; }
   .month-row span { font-size: 10px; color: var(--text3); text-align: left; }
-  .graph { display: grid; grid-template-columns: repeat(53, 13px); grid-template-rows: repeat(7, 13px); grid-auto-flow: column; gap: 3px; cursor: crosshair; user-select: none; }
+  .graph { display: grid; grid-template-rows: repeat(7, 13px); grid-auto-flow: column; gap: 3px; cursor: crosshair; user-select: none; }
   .cell { width: 13px; height: 13px; border-radius: 2px; transition: opacity .1s; }
   .cell:hover { opacity: .65; }
   .cell.out { opacity: .15; cursor: default; pointer-events: none; }
@@ -182,10 +182,12 @@
 </div>
 
 <script>
-const COLS=53, ROWS=7;
+const ROWS=7;
 const COLORS=['#21262d','#0D4429','#016C31','#26A641','#39D353'];
-let grid=Array(COLS*ROWS).fill(0), selLevel=0, isDown=false;
-let startDate = new Date(); // actual Sunday start
+let grid=[], selLevel=0, isDown=false;
+let startDate = new Date();
+let totalCols = 53;
+let selectedYear = new Date().getFullYear();
 
 // ── Year selector ──
 (()=>{
@@ -201,12 +203,26 @@ let startDate = new Date(); // actual Sunday start
 })();
 
 function setYear(year){
-  // start = Sunday on or before Jan 1 of that year
+  selectedYear = year;
+  // Jan 1 of the year
   const jan1 = new Date(year, 0, 1);
+  // rewind to the Sunday on or before Jan 1
   const sun = new Date(jan1);
   sun.setDate(jan1.getDate() - jan1.getDay());
   sun.setHours(12,0,0,0);
   startDate = sun;
+
+  // Dec 31 of the year
+  const dec31 = new Date(year, 11, 31);
+  // forward to the Saturday on or after Dec 31
+  const sat = new Date(dec31);
+  sat.setDate(dec31.getDate() + (6 - dec31.getDay()));
+  sat.setHours(12,0,0,0);
+
+  // total columns = number of weeks between startDate and sat
+  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+  totalCols = Math.round((sat - sun) / msPerWeek) + 1;
+
   rebuildGraph();
 }
 
@@ -215,13 +231,13 @@ const graphEl = document.getElementById('graph');
 const monthsEl = document.getElementById('months');
 
 function rebuildGraph(){
-  grid = Array(COLS*ROWS).fill(0);
+  grid = Array(totalCols*ROWS).fill(0);
   graphEl.innerHTML = '';
   monthsEl.innerHTML = '';
 
   // month labels
   let lastM = -1;
-  for(let c=0; c<COLS; c++){
+  for(let c=0; c<totalCols; c++){
     const d = new Date(startDate);
     d.setDate(d.getDate() + c*7);
     const span = document.createElement('span');
@@ -229,9 +245,16 @@ function rebuildGraph(){
     monthsEl.appendChild(span);
   }
 
-  // cells — grid-auto-flow: column means col*ROWS+row = index
+  // update grid CSS
+  const colDef = `repeat(${totalCols}, 13px)`;
+  monthsEl.style.gridTemplateColumns = colDef;
+  graphEl.style.gridTemplateColumns = colDef;
+
   const today = new Date(); today.setHours(23,59,59,999);
-  for(let c=0; c<COLS; c++){
+  const yearStart = new Date(selectedYear, 0, 1);
+  const yearEnd   = new Date(selectedYear, 11, 31); yearEnd.setHours(23,59,59,999);
+
+  for(let c=0; c<totalCols; c++){
     for(let r=0; r<ROWS; r++){
       const d = new Date(startDate);
       d.setDate(d.getDate() + c*7 + r);
@@ -239,9 +262,13 @@ function rebuildGraph(){
       cell.className = 'cell';
       cell.dataset.i = c*ROWS + r;
       cell.dataset.ts = d.getTime();
-      // grey out future dates
-      if(d > today) cell.classList.add('out');
-      cell.style.background = COLORS[0];
+      // outside current year OR in future → invisible/non-paintable
+      if(d < yearStart || d > yearEnd || d > today){
+        cell.classList.add('out');
+        cell.style.background = 'transparent';
+      } else {
+        cell.style.background = COLORS[0];
+      }
       cell.addEventListener('mousedown', e=>{ e.preventDefault(); isDown=true; paint(cell); });
       cell.addEventListener('mouseenter', ()=>{ if(isDown) paint(cell); });
       graphEl.appendChild(cell);
@@ -262,8 +289,7 @@ function updateStats(){
   const mult = +document.getElementById('multiplier').value;
   document.getElementById('sDays').textContent = grid.filter(v=>v>0).length;
   document.getElementById('sCommits').textContent = grid.reduce((a,v)=>a+v*mult,0).toLocaleString();
-  // period
-  const end = new Date(startDate); end.setDate(end.getDate() + COLS*7 - 1);
+  const end = new Date(startDate); end.setDate(end.getDate() + totalCols*7 - 1);
   const fmt = d => d.toLocaleDateString('ru', {day:'numeric', month:'short', year:'numeric'});
   document.getElementById('sPeriod').textContent = fmt(startDate) + ' — ' + fmt(end);
 }
